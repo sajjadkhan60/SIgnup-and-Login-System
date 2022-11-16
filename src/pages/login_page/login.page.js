@@ -15,6 +15,7 @@ function LoginPage({ registerd, setRegisterd }) {
   const [error, setError] = useState(false);
   const [auth, setAuth] = useState(false);
   const [loginStatus, setLoginStatus] = useState(false);
+  const [emptyError, setemptyError] = useState(false);
 
   const { email, password } = state;
   let navigate = useNavigate();
@@ -25,22 +26,29 @@ function LoginPage({ registerd, setRegisterd }) {
     });
   };
   const authUser = async () => {
-    setRegisterd(false);
-    setAuth(true);
-    setError(false);
-    const check = await auth_User(JSON.stringify(state));
-    if (!check) {
-      setError(true);
-      setAuth(false);
-      console.log("User not found!!!");
-    } else {
-      setLoginStatus(true);
-      console.log("User found!!!");
-      setAuth(false);
-      setTimeout(() => {
-        navigate(`/dashboard`);
-      }, 3000);
+    if (email == "" || password == "") {
+      setemptyError(true);
     }
+    else{
+      setemptyError(false);
+      setRegisterd(false);
+      setAuth(true);
+      setError(false);
+      const check = await auth_User(JSON.stringify(state));
+      if (!check) {
+        setError(true);
+        setAuth(false);
+        console.log("User not found!!!");
+      } else {
+        setLoginStatus(true);
+        console.log("User found!!!");
+        setAuth(false);
+        setTimeout(() => {
+          navigate(`/dashboard`);
+        }, 3000);
+      }
+    }
+
   };
   console.log(registerd);
   return (
@@ -63,6 +71,11 @@ function LoginPage({ registerd, setRegisterd }) {
             <div className="registerationsuccess">
               Login Success <br />
               Redirecting you to dashboard ...
+            </div>
+          )}
+          {emptyError && (
+            <div className="error">
+              Please make sure all the fields are filled.
             </div>
           )}
           <CustomInput
