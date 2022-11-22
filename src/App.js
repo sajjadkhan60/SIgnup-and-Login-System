@@ -7,20 +7,21 @@ import Dashboard from "./pages/dashboard_page/dashboard.page";
 
 function App() {
   const [registerd, setRegisterd] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
   return (
     <div>
       <Routes>
         <Route
           path="/"
           element={
-            <LoginPage registerd={registerd} setRegisterd={setRegisterd} />
+            <LoginPage registerd={registerd} setRegisterd={setRegisterd} setUserEmail={setUserEmail} />
           }
         />
         <Route
           path="/signup"
           element={<SignupPage setRegisterd={setRegisterd} />}
         />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={<Dashboard userEmail={userEmail} />} />
       </Routes>
     </div>
   );

@@ -25,6 +25,6 @@ export function auth_User(user) {
         }
         resolve(false);
       }
-    }, 4000);
+    }, 200);
   });
 }

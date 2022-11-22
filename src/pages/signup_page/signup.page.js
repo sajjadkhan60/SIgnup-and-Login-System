@@ -49,13 +49,13 @@ function SignupPage({ setRegisterd }) {
           setRegisterd(fname);
           navigate(`/`);
         }
-      }, 4000);
+      }, 200);
     }
   };
   return (
     <div className="login_page">
       <div className="login_form_container">
-        <h3>SignUp Form</h3>
+        <h3>SignUp</h3>
         {error && (
           <div className="error">
             An account with this email already exists. Please use a different

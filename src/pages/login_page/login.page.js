@@ -43,9 +43,10 @@ function LoginPage({ registerd, setRegisterd }) {
         setLoginStatus(true);
         console.log("User found!!!");
         setAuth(false);
+        window.localStorage.setItem("userEmail",state.email)
         setTimeout(() => {
           navigate(`/dashboard`);
-        }, 3000);
+        }, 2000);
       }
     }
 
