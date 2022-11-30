@@ -39,17 +39,21 @@ function SignupPage({ setRegisterd }) {
       setIncorrectPassword(true);
     } else {
       setAuth(true);
-      setTimeout(() => {
-        const check = add_users(JSON.stringify(state));
-        if (!check) {
-          setError(true);
-          setAuth(false);
-        } else {
-          setError(false);
-          setRegisterd(fname);
-          navigate(`/`);
-        }
-      }, 200);
+      fetch("http://localhost/testing/index.php", {
+        mode: "no-cors",
+        method: "POST",
+        body: JSON.stringify(state),
+        headers: {
+          "Content-type": "application/json;",
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          alert(data);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
     }
   };
   return (
@@ -75,7 +79,7 @@ function SignupPage({ setRegisterd }) {
           </div>
         )}
         <CustomInput
-          title={"First Name"}
+          title={"Name"}
           type={"text"}
           name={"fname"}
           value={fname}
