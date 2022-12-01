@@ -14,14 +14,17 @@ function App() {
         <Route
           path="/"
           element={
-            <LoginPage registerd={registerd} setRegisterd={setRegisterd} setUserEmail={setUserEmail} />
+            <LoginPage registerd={registerd} setRegisterd={setRegisterd} />
           }
         />
         <Route
           path="/signup"
           element={<SignupPage setRegisterd={setRegisterd} />}
         />
-        <Route path="/dashboard" element={<Dashboard userEmail={userEmail} />} />
+        <Route
+          path="/dashboard"
+          element={<Dashboard userEmail={userEmail} />}
+        />
       </Routes>
     </div>
   );

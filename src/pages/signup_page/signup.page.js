@@ -3,7 +3,6 @@ import CustomInput from "../../components/custom_input/custom_input.component";
 import "./signup.css";
 import CustomButton from "../../components/custom_button/custom_button.component";
 import { Link, useNavigate } from "react-router-dom";
-import { add_users } from "../../assets/database/users";
 
 const initialState = {
   fname: "",
@@ -39,21 +38,28 @@ function SignupPage({ setRegisterd }) {
       setIncorrectPassword(true);
     } else {
       setAuth(true);
-      fetch("http://localhost/testing/index.php", {
-        mode: "no-cors",
-        method: "POST",
-        body: JSON.stringify(state),
-        headers: {
-          "Content-type": "application/json;",
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          alert(data);
+      setTimeout(() => {
+        fetch("http://localhost/firegram/user_add.php", {
+          method: "POST",
+          body: JSON.stringify(state),
+          headers: {
+            "Content-type": "application/json;",
+          },
         })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.insert == "exists") {
+              setAuth(false);
+              setError(true);
+            } else if (data.insert == "success") {
+              setRegisterd(state.fname);
+              navigate(`/`);
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }, 1000);
     }
   };
   return (

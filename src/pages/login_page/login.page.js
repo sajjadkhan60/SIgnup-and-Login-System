@@ -28,28 +28,57 @@ function LoginPage({ registerd, setRegisterd }) {
   const authUser = async () => {
     if (email == "" || password == "") {
       setemptyError(true);
-    }
-    else{
+      setRegisterd(false);
+    } else {
       setemptyError(false);
       setRegisterd(false);
       setAuth(true);
       setError(false);
-      const check = await auth_User(JSON.stringify(state));
-      if (!check) {
-        setError(true);
-        setAuth(false);
-        console.log("User not found!!!");
-      } else {
-        setLoginStatus(true);
-        console.log("User found!!!");
-        setAuth(false);
-        window.localStorage.setItem("userEmail",state.email)
-        setTimeout(() => {
-          navigate(`/dashboard`);
-        }, 2000);
-      }
-    }
 
+      setTimeout(() => {
+        fetch("http://localhost/firegram/user_auth.php", {
+          method: "POST",
+          body: JSON.stringify(state),
+          headers: {
+            "Content-type": "application/json;",
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.authentications == "login_failed") {
+              setError(true);
+              setAuth(false);
+              console.log("User not found!!!");
+            } else if (data.authentications == "login_success") {
+              setLoginStatus(true);
+              console.log("User found!!!");
+              setAuth(false);
+              window.localStorage.setItem("userEmail", state.email);
+              setTimeout(() => {
+                navigate(`/dashboard`);
+              }, 2000);
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }, 1500);
+
+      // const check = await auth_User(JSON.stringify(state));
+      // if (!check) {
+      //   setError(true);
+      //   setAuth(false);
+      //   console.log("User not found!!!");
+      // } else {
+      //   setLoginStatus(true);
+      //   console.log("User found!!!");
+      //   setAuth(false);
+      //   window.localStorage.setItem("userEmail", state.email);
+      //   setTimeout(() => {
+      //     navigate(`/dashboard`);
+      //   }, 2000);
+      // }
+    }
   };
   console.log(registerd);
   return (
@@ -58,14 +87,11 @@ function LoginPage({ registerd, setRegisterd }) {
         <div className="login_form_container">
           <h3>Login Form</h3>
           {error && (
-            <div className="error">
-              Email or password is incorrect. <br /> Please try again. Thank
-              you!
-            </div>
+            <div className="error">Email or password is incorrect.</div>
           )}
           {registerd && (
             <div className="registerationsuccess">
-              Hello {registerd}, You are successfully registered.
+              You are successfully registered, {registerd}
             </div>
           )}
           {loginStatus && (
