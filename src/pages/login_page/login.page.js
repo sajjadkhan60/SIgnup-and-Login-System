@@ -3,7 +3,6 @@ import CustomInput from "../../components/custom_input/custom_input.component";
 import "./login.page.css";
 import CustomButton from "../../components/custom_button/custom_button.component";
 import { Link, useNavigate } from "react-router-dom";
-import { auth_User } from "../../assets/database/users";
 
 const initialState = {
   email: "",

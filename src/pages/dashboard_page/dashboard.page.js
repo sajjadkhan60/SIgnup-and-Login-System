@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ShowPosts from "../../components/custom_hooks/ShowPosts";
 import "./dashboard.page.css";
 
 function Dashboard() {
-  const [posts, setPosts] = useState("Loading...");
+  const [posts, setPosts] = useState([]);
   const [userName, setUserName] = useState("____");
   let navigate = useNavigate();
   useEffect(() => {
@@ -21,11 +22,7 @@ function Dashboard() {
         .then((response) => response.json())
         .then((data) => {
           setUserName(data.username);
-          if (data.posts == "none") {
-            setPosts(false);
-          } else {
-            setPosts(data.posts);
-          }
+          setPosts(data.posts);
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -57,11 +54,7 @@ function Dashboard() {
       </div>
       <div className="container">
         <h3>My Posts</h3>
-        {posts ? (
-          <showPosts posts={posts} />
-        ) : (
-          <div className="no-posts">No posts to show!</div>
-        )}
+        <ShowPosts posts={posts} />
       </div>
     </div>
   );
