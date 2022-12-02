@@ -5,6 +5,7 @@ import "./dashboard.page.css";
 
 function Dashboard() {
   const [posts, setPosts] = useState([]);
+  const [postsLength, setPostsLength] = useState(null);
   const [userName, setUserName] = useState("____");
   let navigate = useNavigate();
   useEffect(() => {
@@ -22,7 +23,12 @@ function Dashboard() {
         .then((response) => response.json())
         .then((data) => {
           setUserName(data.username);
-          setPosts(data.posts);
+          if (data.posts.length == 0) {
+            setPostsLength(true);
+          } else {
+            setPosts(data.posts);
+            setPostsLength(false);
+          }
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -54,7 +60,15 @@ function Dashboard() {
       </div>
       <div className="container">
         <h3>My Posts</h3>
-        <ShowPosts posts={posts} />
+        {postsLength ? (
+          <div className="no-posts" style={{ color: "black" }}>
+            No Posts Found!
+          </div>
+        ) : (
+          <div>
+            <ShowPosts posts={posts} />
+          </div>
+        )}
       </div>
     </div>
   );
