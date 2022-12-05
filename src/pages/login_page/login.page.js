@@ -61,7 +61,7 @@ function LoginPage({ registerd, setRegisterd }) {
           .catch((error) => {
             console.error("Error:", error);
           });
-      }, 1500);
+      }, 1000);
 
       // const check = await auth_User(JSON.stringify(state));
       // if (!check) {

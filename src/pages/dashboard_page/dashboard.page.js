@@ -11,6 +11,7 @@ function Dashboard() {
   const [popup, showHidePopup] = useState(false);
   const [postsLength, setPostsLength] = useState(null);
   const [userName, setUserName] = useState("____");
+  const [userId, setUserId] = useState("____");
   let navigate = useNavigate();
   useEffect(() => {
     if (localStorage.getItem("userEmail") === null) {
@@ -27,6 +28,7 @@ function Dashboard() {
         .then((response) => response.json())
         .then((data) => {
           setUserName(data.username);
+          setUserId(data.userid);
           console.log(data);
           if (data.posts.length == 0) {
             setPostsLength(true);
@@ -39,6 +41,7 @@ function Dashboard() {
           console.error("Error:", error);
         });
     }
+    console.log("UseEffect ran ...");
   }, []);
   function logout() {
     window.localStorage.removeItem("userEmail");
@@ -51,8 +54,7 @@ function Dashboard() {
       showHideMenu(true);
     }
   }
-  function togglePopup(e) {
-    console.log(e.target.className);
+  function togglePopup() {
     if (popup == true) {
       showHidePopup(false);
     } else {
@@ -95,7 +97,7 @@ function Dashboard() {
           </div>
         </div>
       </div>
-      <div className="container">
+      <div className="container" style={{ marginBottom: "10px" }}>
         <h3>My Posts</h3>
         {postsLength ? (
           <div className="no-posts" style={{ color: "black" }}>
@@ -107,7 +109,14 @@ function Dashboard() {
           </div>
         )}
       </div>
-      {popup && <AddPost togglePopup={togglePopup} />}
+      {popup && (
+        <AddPost
+          togglePopup={togglePopup}
+          userId={userId}
+          posts={posts}
+          setPosts={setPosts}
+        />
+      )}
     </div>
   );
 }

@@ -1,13 +1,46 @@
 import React, { useState } from "react";
 import CustomButton from "../custom_button/custom_button.component";
-function AddPost({ togglePopup }) {
+import { motion } from "framer-motion";
+function AddPost({ togglePopup, userId, posts, setPosts }) {
   const [uploadStatus, setUploadStatus] = useState(false);
   const [file, setFile] = useState(null);
   const [error, setError] = useState(null);
   const [description, setDescription] = useState("");
   function addPost() {
     if (file && description != "") {
+      setError("");
       setUploadStatus(true);
+      setTimeout(() => {
+        let data = new FormData();
+        const image = file;
+        data.append("userId", userId);
+        data.append("description", description);
+        data.append("postImage", image);
+
+        fetch("http://localhost/firegram/add_post.php", {
+          method: "POST",
+          body: data,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.insert == "success") {
+              var b;
+              togglePopup((b = "close"));
+              let newPost = {
+                date: data.date,
+                post_description: description,
+                post_id: " ",
+                post_image: data.imgUrl,
+                user_id: userId,
+              };
+              posts.unshift(newPost);
+              setPosts(posts);
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }, 1000);
     } else {
       setError("Description and image should be added to the post!");
     }
@@ -17,10 +50,9 @@ function AddPost({ togglePopup }) {
 
   const handleChange = (e) => {
     let selected = e.target.files[0];
-    console.log(selected);
-
     if (selected && types.includes(selected.type)) {
       setFile(selected);
+      console.log(file);
       setError("");
     } else {
       setFile(null);
@@ -30,8 +62,12 @@ function AddPost({ togglePopup }) {
   return (
     <div>
       <div className="popup">
-        <div className="overlay">
-          <div className="form">
+        <motion.div className="overlay">
+          <motion.div
+            className="form"
+            initial={{ y: "20vh" }}
+            animate={{ y: 0 }}
+          >
             <div className="header">
               <h3>Add Post</h3>
               <div className="close" onClick={togglePopup}>
@@ -131,8 +167,9 @@ function AddPost({ togglePopup }) {
                 }}
               />
             )}
-          </div>
-        </div>
+            {file && <div file={file} />}
+          </motion.div>
+        </motion.div>
       </div>
     </div>
   );

@@ -1,13 +1,19 @@
 import React from "react";
 import SinglePost from "./SinglePost";
+import { motion } from "framer-motion";
 function ShowPosts({ posts }) {
   return (
     <div>
-      <div className="all-posts">
+      <motion.div
+        className="all-posts"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.2 }}
+      >
         {posts.map((ele) => {
           return <SinglePost ele={ele} />;
         })}
-      </div>
+      </motion.div>
     </div>
   );
 }
