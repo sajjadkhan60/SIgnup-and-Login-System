@@ -84,7 +84,18 @@ function LoginPage({ registerd, setRegisterd }) {
     <div>
       <div className="login_page">
         <div className="login_form_container">
-          <h3>Login Form</h3>
+          <div className="logo">
+            <h1
+              style={{
+                marginTop: "0px",
+                textAlign: "center",
+                marginBottom: "10px",
+              }}
+            >
+              FireGram
+            </h1>
+          </div>
+          <h3>Login</h3>
           {error && (
             <div className="error">Email or password is incorrect.</div>
           )}

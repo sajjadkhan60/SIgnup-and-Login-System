@@ -8,7 +8,7 @@ function ShowPosts({ posts }) {
         className="all-posts"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.2 }}
+        transition={{ transition: 3 }}
       >
         {posts.map((ele) => {
           return <SinglePost ele={ele} />;

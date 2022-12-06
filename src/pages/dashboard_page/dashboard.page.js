@@ -27,7 +27,12 @@ function Dashboard() {
       )
         .then((response) => response.json())
         .then((data) => {
-          setUserName(data.username);
+          if (data.username.length > 5) {
+            var username = data.username.slice(0, 5) + "..";
+            setUserName(username);
+          } else {
+            setUserName(data.username);
+          }
           setUserId(data.userid);
           console.log(data);
           if (data.posts.length == 0) {
@@ -115,6 +120,7 @@ function Dashboard() {
           userId={userId}
           posts={posts}
           setPosts={setPosts}
+          setPostsLength={setPostsLength}
         />
       )}
     </div>

@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import SignupPage from "./pages/signup_page/signup.page";
 import { useState } from "react";
 import Dashboard from "./pages/dashboard_page/dashboard.page";
+import Post from "./pages/post_page/Post";
 
 function App() {
   const [registerd, setRegisterd] = useState(false);
@@ -25,6 +26,7 @@ function App() {
           path="/dashboard"
           element={<Dashboard userEmail={userEmail} />}
         />
+        <Route path="/post/:p_id" element={<Post />} />
       </Routes>
     </div>
   );

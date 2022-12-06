@@ -65,6 +65,17 @@ function SignupPage({ setRegisterd }) {
   return (
     <div className="login_page">
       <div className="login_form_container">
+        <div className="logo">
+          <h1
+            style={{
+              marginTop: "0px",
+              textAlign: "center",
+              marginBottom: "10px",
+            }}
+          >
+            FireGram
+          </h1>
+        </div>
         <h3>SignUp</h3>
         {error && (
           <div className="error">

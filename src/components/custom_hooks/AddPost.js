@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import CustomButton from "../custom_button/custom_button.component";
 import { motion } from "framer-motion";
-function AddPost({ togglePopup, userId, posts, setPosts }) {
+function AddPost({ togglePopup, userId, posts, setPosts, setPostsLength }) {
   const [uploadStatus, setUploadStatus] = useState(false);
   const [file, setFile] = useState(null);
   const [error, setError] = useState(null);
@@ -33,14 +33,20 @@ function AddPost({ togglePopup, userId, posts, setPosts }) {
                 post_image: data.imgUrl,
                 user_id: userId,
               };
-              posts.unshift(newPost);
-              setPosts(posts);
+              if (posts.length == 0) {
+                posts.push(newPost);
+                setPosts(posts);
+                setPostsLength(false);
+              } else {
+                posts.unshift(newPost);
+                setPosts(posts);
+              }
             }
           })
           .catch((error) => {
             console.error("Error:", error);
           });
-      }, 1000);
+      }, 2500);
     } else {
       setError("Description and image should be added to the post!");
     }
