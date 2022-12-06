@@ -29,7 +29,7 @@ function AddPost({ togglePopup, userId, posts, setPosts, setPostsLength }) {
               let newPost = {
                 date: data.date,
                 post_description: description,
-                post_id: " ",
+                post_id: data.postid,
                 post_image: data.imgUrl,
                 user_id: userId,
               };

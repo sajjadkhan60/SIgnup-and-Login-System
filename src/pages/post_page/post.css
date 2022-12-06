@@ -1,0 +1,44 @@
+.main-post-container {
+  display: flex;
+  gap: 20px;
+}
+.main-post-container .post-picture {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: aliceblue;
+}
+.main-post-container .post-picture img {
+  width: 100%;
+  border-radius: 10px;
+}
+.post-details {
+  width: 50%;
+}
+
+.post-details .user-details {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5px;
+}
+.post-details .user-details img {
+  width: 40px;
+}
+.post-details .user-details .name h1 {
+  font-size: 20px;
+}
+.post-details .user-details .name p {
+  font-size: 14px;
+  color: grey;
+  margin-bottom: 7px;
+}
+.post-details .post-description {
+  padding: 2px 0px;
+  width: 100%;
+}
+.post-details .post-description p {
+  font-size: 16px;
+}

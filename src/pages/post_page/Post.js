@@ -1,14 +1,85 @@
 import React from "react";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import CustomInput from "../../components/custom_input/custom_input.component";
+import profile from "../../pages/dashboard_page/profile123.png";
 import "./post.css";
 function Post() {
-  var url_string = window.location;
-  var url = new URL(url_string);
-  var p_id = url.searchParams.get("p_id");
-  console.log(p_id);
+  const [post, setPost] = useState([]);
+  const [postsLength, setPostsLength] = useState(null);
+  const [userName, setUserName] = useState("____");
+  var { p_id } = useParams();
+  useEffect(() => {
+    // Fetch User details and posts
+    fetch(
+      "http://localhost/firegram/load-specific-post.php?post_id=" + p_id + "",
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.number == 1) {
+          setPost(data.post);
+          setUserName(data.username);
+        } else {
+          setPostsLength(true);
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }, []);
   return (
     <div>
       <div className="container">
-        <h1>This is the post details page</h1>
+        {postsLength ? (
+          <div className="no-posts" style={{ color: "black" }}>
+            This post does not exist!
+          </div>
+        ) : (
+          <div className="main-post-container">
+            <div className="post-picture">
+              <img src={post.post_image} />
+            </div>
+            <div className="post-details">
+              <div className="user-details">
+                <div className="img">
+                  <img src={profile} />
+                </div>
+                <div className="name">
+                  <h1>{userName}</h1>
+                  <p>{post.date}</p>
+                </div>
+              </div>
+              <div className="post-description">
+                <p>{post.post_description}</p>
+              </div>
+              <div className="comments">
+                <h3>Comments</h3>
+                <div className="comments-area"></div>
+              </div>
+              <div className="likes-comments-number">
+                <div className="post-likes">
+                  <i class="fa-solid fa-heart"></i> 0
+                </div>
+                <div className="post-comments">
+                  <i class="fa-solid fa-comment"></i> 0
+                </div>
+              </div>
+              <div className="add-comment">
+                <h3>Add Comment</h3>
+                <form>
+                  <CustomInput
+                    type={"text"}
+                    name={"comment"}
+                    placeholder={"Type your comment.."}
+                  />
+                </form>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
