@@ -57,25 +57,35 @@ function Post() {
               </div>
               <div className="comments">
                 <h3>Comments</h3>
+                <div className="no-comments">No comments yet!</div>
                 <div className="comments-area"></div>
               </div>
-              <div className="likes-comments-number">
-                <div className="post-likes">
-                  <i class="fa-solid fa-heart"></i> 0
+              <div className="details-bottom">
+                <div className="likes-comments-number">
+                  <div className="post-likes">
+                    <i class="fa-solid fa-heart"></i> 0
+                  </div>
+                  <div className="post-comments">
+                    <i class="fa-solid fa-comment"></i> 0
+                  </div>
                 </div>
-                <div className="post-comments">
-                  <i class="fa-solid fa-comment"></i> 0
+                <div className="add-comment">
+                  <div className="input">
+                    <form>
+                      <CustomInput
+                        type={"text"}
+                        name={"comment"}
+                        placeholder={"Add Comment.."}
+                        style={{
+                          borderRadius: "3px",
+                          fontSize: "12px",
+                          marginBottom: "0px",
+                        }}
+                      />
+                    </form>
+                  </div>
+                  <button className="postcomment">Post</button>
                 </div>
-              </div>
-              <div className="add-comment">
-                <h3>Add Comment</h3>
-                <form>
-                  <CustomInput
-                    type={"text"}
-                    name={"comment"}
-                    placeholder={"Type your comment.."}
-                  />
-                </form>
               </div>
             </div>
           </div>

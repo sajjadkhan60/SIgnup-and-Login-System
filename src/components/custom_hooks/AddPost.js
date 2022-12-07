@@ -46,7 +46,7 @@ function AddPost({ togglePopup, userId, posts, setPosts, setPostsLength }) {
           .catch((error) => {
             console.error("Error:", error);
           });
-      }, 2500);
+      }, 500);
     } else {
       setError("Description and image should be added to the post!");
     }
