@@ -4,9 +4,14 @@ import { useEffect, useState } from "react";
 import CustomInput from "../../components/custom_input/custom_input.component";
 import profile from "../../pages/dashboard_page/profile123.png";
 import "./post.css";
+import ShowComments from "../../components/custom_hooks/ShowComments";
 function Post() {
   const [post, setPost] = useState([]);
+  const [posting, setPosting] = useState(false);
+  const [comment, setComment] = useState("");
+  const [comments, setComments] = useState([]);
   const [postsLength, setPostsLength] = useState(null);
+  const [commentsLength, setcommentsLength] = useState("...");
   const [userName, setUserName] = useState("____");
   var { p_id } = useParams();
   useEffect(() => {
@@ -22,6 +27,12 @@ function Post() {
         if (data.number == 1) {
           setPost(data.post);
           setUserName(data.username);
+          if (data.comments.length == 0) {
+            setcommentsLength(false);
+          } else {
+            setcommentsLength(true);
+            setComments(data.comments);
+          }
         } else {
           setPostsLength(true);
         }
@@ -30,6 +41,56 @@ function Post() {
         console.error("Error:", error);
       });
   }, []);
+  const handleComment = (e) => {
+    setComment(e.target.value);
+  };
+  const addComment = (e) => {
+    e.preventDefault();
+    var userEmail = localStorage.getItem("userEmail");
+    if (comment == "") {
+    } else {
+      setPosting(true);
+      setTimeout(() => {
+        let data = new FormData();
+        data.append("userEmail", userEmail);
+        data.append("comment", comment);
+        data.append("postid", p_id);
+
+        fetch("http://localhost/firegram/add_comment.php", {
+          method: "POST",
+          body: data,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.insert == "success") {
+              console.log(data);
+              setPosting(false);
+              setComment("");
+              var newComment = {
+                comment_data: comment,
+                comment_date: data.date,
+                comment_id: "",
+                post_id: "",
+                user_email: "",
+                username: data.username,
+              };
+              if (comments.length == 0) {
+                comments.push(newComment);
+                setComments(comments);
+                setcommentsLength(true);
+              } else {
+                comments.unshift(newComment);
+                setComments(comments);
+              }
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }, 1000);
+    }
+  };
+
   return (
     <div>
       <div className="container">
@@ -57,8 +118,18 @@ function Post() {
               </div>
               <div className="comments">
                 <h3>Comments</h3>
-                <div className="no-comments">No comments yet!</div>
-                <div className="comments-area"></div>
+
+                <div className="comments-area">
+                  {commentsLength ? (
+                    <div>
+                      <ShowComments comments={comments} />
+                    </div>
+                  ) : (
+                    <div className="no-comments" style={{ color: "black" }}>
+                      No Comments Yet!
+                    </div>
+                  )}
+                </div>
               </div>
               <div className="details-bottom">
                 <div className="likes-comments-number">
@@ -66,25 +137,38 @@ function Post() {
                     <i class="fa-solid fa-heart"></i> 0
                   </div>
                   <div className="post-comments">
-                    <i class="fa-solid fa-comment"></i> 0
+                    <i class="fa-solid fa-comment"></i> {comments.length}
                   </div>
                 </div>
                 <div className="add-comment">
                   <div className="input">
-                    <form>
+                    <form onSubmit={addComment}>
                       <CustomInput
                         type={"text"}
                         name={"comment"}
                         placeholder={"Add Comment.."}
+                        onChange={handleComment}
+                        value={comment}
                         style={{
                           borderRadius: "3px",
                           fontSize: "12px",
                           marginBottom: "0px",
+                          borderRight: "0px",
+                          borderRadius: "3px 0px 0px 3px",
+                          height: "30px",
                         }}
                       />
                     </form>
                   </div>
-                  <button className="postcomment">Post</button>
+                  {posting ? (
+                    <button className="loadingbtn" disabled>
+                      Posting...
+                    </button>
+                  ) : (
+                    <button className="postcomment" onClick={addComment}>
+                      Post
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

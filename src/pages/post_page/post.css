@@ -55,8 +55,9 @@
 }
 .post-details .comments {
   margin: 10px 0px;
-  max-height: 100vh;
+  max-height: 60vh;
   overflow-y: auto;
+  width: 100%;
 }
 .post-details .comments h3 {
   font-size: 16px;
@@ -75,14 +76,16 @@
   display: flex;
   gap: 5px;
   color: #424242;
-  padding: 4px 10px 2px 10px;
+  padding: 2px 10px 2px 10px;
+  align-items: center;
 }
 
 .post-details .likes-comments-number .post-comments {
   display: flex;
   gap: 5px;
   color: #424242;
-  padding: 4px 10px 2px 10px;
+  padding: 2px 10px 2px 10px;
+  align-items: center;
 }
 .post-details .likes-comments-number .post-likes:hover {
   color: black;
@@ -97,9 +100,10 @@
 .post-details .add-comment {
   display: flex;
   margin-top: 5px;
+  align-items: center;
 }
 .post-details .add-comment .input {
-  width: 100%;
+  width: 85%;
 }
 .post-details .add-comment button {
   border: none;
@@ -107,13 +111,26 @@
   color: black;
   font-size: 12px;
   font-weight: 800;
-  width: 60px;
+  width: 15%;
   height: 30px;
-  margin-left: -70px;
+  margin-left: 0px;
+  margin-top: 3px;
+  border: 1px solid grey;
+  border-radius: 0px 3px 3px 0px;
+  border-left: none;
+  padding-bottom: 3px;
 }
 .post-details .add-comment button:hover {
   color: #5fbce3;
   cursor: pointer;
+}
+.post-details .add-comment .loadingbtn {
+  color: black;
+  cursor: alias;
+}
+.post-details .add-comment .loadingbtn:hover {
+  cursor: no-drop;
+  color: black;
 }
 .details-bottom {
   padding-top: 5px;
@@ -123,4 +140,58 @@
   left: 0;
   bottom: 0;
   background-color: white;
+}
+.single-comment {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 10px;
+  gap: 10px;
+}
+.single-comment .user-picture img {
+  width: 40px;
+}
+.single-comment .comment-details {
+  background-color: #e4e6eb;
+  max-width: 100%;
+  word-break: break-all;
+  padding: 10px;
+  border-radius: 10px;
+  margin-right: 5px;
+}
+.single-comment .comment-details h3 {
+  font-size: 17px;
+  font-weight: 900;
+  margin-bottom: 0px;
+  padding-bottom: 5px;
+}
+.single-comment .comment-details p {
+  font-size: 15px;
+  font-weight: 500;
+  margin-bottom: 0px;
+}
+.loadingc {
+  width: 160px;
+  margin: 10px 0px;
+  font-size: 16px;
+  font-weight: 600;
+}
+.loadingc:hover {
+  cursor: no-drop;
+}
+.loadmorec {
+  width: 170px;
+  margin: 10px 0px;
+  font-size: 16px;
+  font-weight: 600;
+}
+.loadmorec:hover {
+  cursor: pointer;
+  color: #5fbce3;
+}
+.cdate {
+  font-size: 12px !important;
+  padding-left: 2px;
+  color: grey;
+  padding-top: 2px;
+  margin-bottom: 0px;
 }
