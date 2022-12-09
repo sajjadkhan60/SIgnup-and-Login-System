@@ -7,6 +7,8 @@ import "./post.css";
 import ShowComments from "../../components/custom_hooks/ShowComments";
 function Post() {
   const [post, setPost] = useState([]);
+  const [like, setLike] = useState(null);
+  const [likes, setLikes] = useState(0);
   const [posting, setPosting] = useState(false);
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
@@ -16,8 +18,13 @@ function Post() {
   var { p_id } = useParams();
   useEffect(() => {
     // Fetch User details and posts
+    const email = window.localStorage.getItem("userEmail");
     fetch(
-      "http://localhost/firegram/load-specific-post.php?post_id=" + p_id + "",
+      "http://localhost/firegram/load-specific-post.php?post_id=" +
+        p_id +
+        "&email=" +
+        email +
+        "",
       {
         method: "GET",
       }
@@ -26,6 +33,7 @@ function Post() {
       .then((data) => {
         if (data.number == 1) {
           setPost(data.post);
+          setLikes(data.post.likes);
           setUserName(data.username);
           if (data.comments.length == 0) {
             setcommentsLength(false);
@@ -36,6 +44,12 @@ function Post() {
         } else {
           setPostsLength(true);
         }
+
+        if (data.like == 1) {
+          setLike(true);
+        } else {
+          setLike(false);
+        }
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -43,6 +57,50 @@ function Post() {
   }, []);
   const handleComment = (e) => {
     setComment(e.target.value);
+  };
+  const removeLike = () => {
+    setLikes(likes - 1);
+    var userEmail = localStorage.getItem("userEmail");
+    let data = new FormData();
+    data.append("useremail", userEmail);
+    data.append("postid", p_id);
+    data.append("likesnumber", likes - 1);
+    fetch("http://localhost/firegram/remove_like.php", {
+      method: "POST",
+      body: data,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        if (data.insert == "success") {
+          setLike(false);
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", console.log(error));
+      });
+  };
+  const addLike = () => {
+    setLikes(likes + 1);
+    var userEmail = localStorage.getItem("userEmail");
+    let data = new FormData();
+    data.append("useremail", userEmail);
+    data.append("postid", p_id);
+    data.append("likesnumber", likes + 1);
+    fetch("http://localhost/firegram/add_like.php", {
+      method: "POST",
+      body: data,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        if (data.insert == "success") {
+          setLike(true);
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", console.log(error));
+      });
   };
   const addComment = (e) => {
     e.preventDefault();
@@ -55,6 +113,7 @@ function Post() {
         data.append("userEmail", userEmail);
         data.append("comment", comment);
         data.append("postid", p_id);
+        data.append("commentsnumber", comments.length + 1);
 
         fetch("http://localhost/firegram/add_comment.php", {
           method: "POST",
@@ -133,8 +192,21 @@ function Post() {
               </div>
               <div className="details-bottom">
                 <div className="likes-comments-number">
-                  <div className="post-likes">
-                    <i class="fa-solid fa-heart"></i> 0
+                  <div>
+                    {like ? (
+                      <div
+                        onClick={removeLike}
+                        className="post-likes "
+                        style={{ color: "red" }}
+                      >
+                        <i class="fa-solid fa-heart"></i>
+                        <span style={{ color: "#424242" }}>{likes}</span>
+                      </div>
+                    ) : (
+                      <div className="post-likes " onClick={addLike}>
+                        <i class="fa-solid fa-heart "></i> {likes}
+                      </div>
+                    )}
                   </div>
                   <div className="post-comments">
                     <i class="fa-solid fa-comment"></i> {comments.length}

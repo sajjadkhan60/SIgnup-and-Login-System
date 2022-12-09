@@ -21,7 +21,7 @@ function SinglePost({ ele }) {
                 <i class="fa-solid fa-heart"></i> 0
               </div>
               <div className="post-comments">
-                <i class="fa-solid fa-comment"></i> 0
+                <i class="fa-solid fa-comment"></i> {ele.comments}
               </div>
             </div>
           </div>

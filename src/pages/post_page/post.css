@@ -195,3 +195,9 @@
   padding-top: 2px;
   margin-bottom: 0px;
 }
+.post-likes .liked {
+  background-color: red;
+}
+.post-likes .notliked {
+  color: #424242;
+}
