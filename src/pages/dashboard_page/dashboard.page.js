@@ -8,6 +8,7 @@ import "./dashboard.page.css";
 function Dashboard() {
   const [posts, setPosts] = useState([]);
   const [menu, showHideMenu] = useState(false);
+
   const [popup, showHidePopup] = useState(false);
   const [postsLength, setPostsLength] = useState(null);
   const [userName, setUserName] = useState("____");

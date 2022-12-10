@@ -1,11 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 function SinglePost({ ele }) {
+  const [like, setLike] = useState(null);
+  const [likes, setLikes] = useState(0);
   if (ele.post_description.length > 50) {
     var post_description = ele.post_description.slice(0, 100) + " ...";
   } else {
     var post_description = ele.post_description;
   }
+
+  useEffect(() => {
+    setLikes(ele.likes);
+    if (ele.like == 1) {
+      setLike(true);
+    }
+  }, []);
   return (
     <div>
       <Link to={"/post/" + ele.post_id}>
@@ -18,7 +27,19 @@ function SinglePost({ ele }) {
             <div className="post-date">{ele.date}</div>
             <div style={{ display: "flex", justifyContent: "flex-start" }}>
               <div className="post-likes">
-                <i class="fa-solid fa-heart"></i> 0
+                {like ? (
+                  <div style={{ color: "red" }}>
+                    <i class="fa-solid fa-heart"></i>
+                    <span style={{ color: "grey", paddingLeft: "2px" }}>
+                      {likes}
+                    </span>
+                  </div>
+                ) : (
+                  <div>
+                    <i class="fa-solid fa-heart"></i>&nbsp;
+                    {likes}
+                  </div>
+                )}
               </div>
               <div className="post-comments">
                 <i class="fa-solid fa-comment"></i> {ele.comments}
