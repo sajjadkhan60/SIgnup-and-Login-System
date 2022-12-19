@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import SinglePost from "./SinglePost";
 import { motion } from "framer-motion";
 function ShowPosts({ posts }) {
-  const [postsNumber, setPostsNumber] = useState(20);
+  const [postsNumber, setPostsNumber] = useState(15);
   const [postsFinished, setpostsFinished] = useState(true);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
-    if (posts.length <= 20) {
+    if (posts.length <= 15) {
       setpostsFinished(false);
     } else {
       setpostsFinished(true);
@@ -15,7 +15,7 @@ function ShowPosts({ posts }) {
   const loadMore = (e) => {
     setLoading(true);
     setTimeout(() => {
-      var newValue = postsNumber + 20;
+      var newValue = postsNumber + 10;
       setPostsNumber(newValue);
       setLoading(false);
       if (postsNumber >= posts.length) {
@@ -40,7 +40,6 @@ function ShowPosts({ posts }) {
           className="load-more"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
         >
           {loading ? (
             <button className="loadingbtn" disabled>

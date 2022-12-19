@@ -32,6 +32,9 @@ function AddPost({ togglePopup, userId, posts, setPosts, setPostsLength }) {
                 post_id: data.postid,
                 post_image: data.imgUrl,
                 user_id: userId,
+                comments: 0,
+                like: 0,
+                likes: 0,
               };
               if (posts.length == 0) {
                 posts.push(newPost);
@@ -41,6 +44,7 @@ function AddPost({ togglePopup, userId, posts, setPosts, setPostsLength }) {
                 posts.unshift(newPost);
                 setPosts(posts);
               }
+              console.log(posts);
             }
           })
           .catch((error) => {

@@ -119,12 +119,12 @@ label {
 .all-posts {
   display: flex;
   gap: 20px;
-  justify-content: flex-start;
+  justify-content: center;
   flex-wrap: wrap;
   width: 100%;
 }
 .all-posts .single-post {
-  width: 225px;
+  width: 220px;
   height: 225px;
   background-color: #d1d7e0;
   border-radius: 10px;
@@ -313,4 +313,50 @@ textarea::placeholder {
 }
 .load-more .loadmorebtn:active {
   background-color: #94a2b8;
+}
+
+@media (max-width: 1001px) {
+  .all-posts .single-post {
+    width: 300px;
+    height: 250px;
+    background-color: #d1d7e0;
+    border-radius: 10px;
+    position: relative !important;
+    cursor: pointer; /* The image used */ /* Used if the image is unavailable */
+    background-position: center center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+  }
+}
+@media (max-width: 981px) {
+  .all-posts .single-post {
+    width: 280px;
+    height: 250px;
+    background-color: #d1d7e0;
+    border-radius: 10px;
+    position: relative !important;
+    cursor: pointer; /* The image used */ /* Used if the image is unavailable */
+    background-position: center center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+  }
+}
+@media (max-width: 821px) {
+  .container {
+    width: 100%;
+    margin: 20px 0px;
+  }
+  .all-posts .single-post {
+    width: 300px;
+    max-width: 500px;
+    margin: 0 auto;
+    height: 250px;
+    background-color: #d1d7e0;
+    border-radius: 10px;
+    position: relative !important;
+    cursor: pointer; /* The image used */ /* Used if the image is unavailable */
+    background-position: center center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+  }
 }
