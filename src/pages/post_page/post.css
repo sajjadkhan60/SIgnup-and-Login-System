@@ -55,6 +55,7 @@
 }
 .post-details .comments {
   margin: 10px 0px;
+  padding-bottom: 100px;
   max-height: 60vh;
   overflow-y: auto;
   width: 100%;
@@ -200,4 +201,38 @@
 }
 .post-likes .notliked {
   color: #424242;
+}
+
+@media (max-width: 500px) {
+  .main-post-container {
+    display: block !important;
+  }
+  .main-post-container .post-picture {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+  }
+  .main-post-container .post-picture img {
+    max-width: 100%;
+    border-radius: 10px;
+  }
+  .post-details {
+    margin-top: 30px;
+    width: 100%;
+    height: auto;
+    position: relative;
+    overflow: hidden;
+  }
+  .post-details .comments {
+    margin: 10px 0px;
+    height: 40vh;
+    padding-bottom: 100px;
+    max-height: 60vh;
+    overflow-y: auto;
+    width: 100%;
+  }
 }

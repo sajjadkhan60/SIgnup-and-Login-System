@@ -119,7 +119,7 @@ label {
 .all-posts {
   display: flex;
   gap: 20px;
-  justify-content: center;
+  justify-content: flex-start;
   flex-wrap: wrap;
   width: 100%;
 }
@@ -329,8 +329,11 @@ textarea::placeholder {
   }
 }
 @media (max-width: 981px) {
+  .all-posts {
+    justify-content: center;
+  }
   .all-posts .single-post {
-    width: 280px;
+    width: 290px;
     height: 250px;
     background-color: #d1d7e0;
     border-radius: 10px;
@@ -358,5 +361,42 @@ textarea::placeholder {
     background-position: center center; /* Center the image */
     background-repeat: no-repeat; /* Do not repeat the image */
     background-size: cover; /* Resize the background image to cover the entire container */
+  }
+}
+
+@media (max-width: 660px) {
+  .all-posts {
+    justify-content: center;
+  }
+  .all-posts .single-post {
+    width: 250px;
+    height: 250px;
+    background-color: #d1d7e0;
+    border-radius: 10px;
+    position: relative !important;
+    cursor: pointer; /* The image used */ /* Used if the image is unavailable */
+    background-position: center center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+  }
+}
+@media (max-width: 560px) {
+  .all-posts {
+    justify-content: center;
+  }
+  .all-posts .single-post {
+    width: 300px;
+    max-width: 350px;
+    height: 250px;
+    background-color: #d1d7e0;
+    border-radius: 10px;
+    position: relative !important;
+    cursor: pointer; /* The image used */ /* Used if the image is unavailable */
+    background-position: center center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+  }
+  .post-content {
+    display: block !important;
   }
 }
