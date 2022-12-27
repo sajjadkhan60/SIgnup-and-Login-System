@@ -27,7 +27,8 @@ function SignupPage({ setRegisterd }) {
       [e.target.name]: e.target.value,
     });
   };
-  const addUser = () => {
+  const addUser = (e) => {
+    e.preventDefault();
     setError(false);
     setemptyError(false);
     setIncorrectPassword(false);
@@ -95,44 +96,45 @@ function SignupPage({ setRegisterd }) {
             Please make sure all the fields are filled.
           </div>
         )}
-        <CustomInput
-          title={"Name"}
-          type={"text"}
-          name={"fname"}
-          value={fname}
-          onChange={handleChange}
-        />
-        <CustomInput
-          title={"Email"}
-          type={"email"}
-          name={"email"}
-          value={email}
-          onChange={handleChange}
-        />
-        <CustomInput
-          title={"Password"}
-          type={"password"}
-          name={"password"}
-          value={password}
-          onChange={handleChange}
-        />
-        <CustomInput
-          title={"Confirm Password"}
-          type={"password"}
-          name={"cpassword"}
-          value={cpassword}
-          onChange={handleChange}
-        />
-        {auth ? (
-          <CustomButton name={"Please wait ..."} className={"disabled"} />
-        ) : (
-          <CustomButton
-            name={"Sign Up"}
-            onClick={addUser}
-            className={"custom_button"}
+        <form onSubmit={addUser}>
+          <CustomInput
+            title={"Name"}
+            type={"text"}
+            name={"fname"}
+            value={fname}
+            onChange={handleChange}
           />
-        )}
-
+          <CustomInput
+            title={"Email"}
+            type={"email"}
+            name={"email"}
+            value={email}
+            onChange={handleChange}
+          />
+          <CustomInput
+            title={"Password"}
+            type={"password"}
+            name={"password"}
+            value={password}
+            onChange={handleChange}
+          />
+          <CustomInput
+            title={"Confirm Password"}
+            type={"password"}
+            name={"cpassword"}
+            value={cpassword}
+            onChange={handleChange}
+          />
+          {auth ? (
+            <CustomButton name={"Please wait ..."} className={"disabled"} />
+          ) : (
+            <CustomButton
+              name={"Sign Up"}
+              onClick={addUser}
+              className={"custom_button"}
+            />
+          )}
+        </form>
         <div className="signuplink">
           Already a member?
           <span>

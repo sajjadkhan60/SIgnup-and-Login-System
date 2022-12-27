@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import SignupPage from "./pages/signup_page/signup.page";
 import { useState } from "react";
 import Dashboard from "./pages/dashboard_page/dashboard.page";
+import Profile from "./pages/profile_page/profile";
 import Post from "./pages/post_page/Post";
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
           path="/dashboard"
           element={<Dashboard userEmail={userEmail} />}
         />
+        <Route path="/profile" element={<Profile userEmail={userEmail} />} />
         <Route path="/post/:p_id" element={<Post />} />
       </Routes>
     </div>

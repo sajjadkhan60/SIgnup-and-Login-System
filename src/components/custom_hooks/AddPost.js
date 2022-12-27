@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import CustomButton from "../custom_button/custom_button.component";
 import { motion } from "framer-motion";
+import { ACTIONS } from "../../pages/dashboard_page/dashboard.page";
 function AddPost({ togglePopup, userId, posts, setPosts, setPostsLength }) {
   const [uploadStatus, setUploadStatus] = useState(false);
   const [file, setFile] = useState(null);
   const [error, setError] = useState(null);
   const [description, setDescription] = useState("");
-  function addPost() {
+  function addPost({ dispatch }) {
     if (file && description != "") {
       setError("");
       setUploadStatus(true);
@@ -36,13 +37,24 @@ function AddPost({ togglePopup, userId, posts, setPosts, setPostsLength }) {
                 like: 0,
                 likes: 0,
               };
+
               if (posts.length == 0) {
                 posts.push(newPost);
-                setPosts(posts);
-                setPostsLength(false);
+
+                dispatch({
+                  type: ACTIONS.SET_POSTS,
+                  payload: posts,
+                });
+                dispatch({
+                  type: ACTIONS.SET_POST_LENGTH,
+                  payload: false,
+                });
               } else {
                 posts.unshift(newPost);
-                setPosts(posts);
+                dispatch({
+                  type: ACTIONS.SET_POSTS,
+                  payload: posts,
+                });
               }
               console.log(posts);
             }
@@ -89,6 +101,7 @@ function AddPost({ togglePopup, userId, posts, setPosts, setPostsLength }) {
               <textarea
                 placeholder="Write description ..."
                 onChange={(e) => setDescription(e.target.value)}
+                style={{ resize: "none" }}
               ></textarea>
             </div>
             {file ? (

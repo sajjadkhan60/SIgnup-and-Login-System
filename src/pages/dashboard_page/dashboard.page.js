@@ -1,19 +1,71 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState, useReducer } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import AddPost from "../../components/custom_hooks/AddPost";
 import ShowPosts from "../../components/custom_hooks/ShowPosts";
-import profile from "../../pages/dashboard_page/profile123.png";
+import profile from "./profile123.png";
 import "./dashboard.page.css";
 
-function Dashboard() {
-  const [posts, setPosts] = useState([]);
-  const [menu, showHideMenu] = useState(false);
+export const ACTIONS = {
+  SET_USER_NAME: "SET_USER_NAME",
+  SET_USER_ID: "SET_USER_ID",
+  SET_POST_LENGTH: "SET_POST_LENGTH",
+  SET_POSTS: "SET_POSTS",
+  SET_POPUP: "SET_POPUP",
+  SET_MENU: "SET_MENU",
+};
 
-  const [popup, showHidePopup] = useState(false);
-  const [postsLength, setPostsLength] = useState(null);
-  const [userName, setUserName] = useState("____");
-  const [userId, setUserId] = useState("____");
+const initialState = {
+  posts: [],
+  menu: false,
+  postsLength: null,
+  userName: "___",
+  userId: "___",
+  popup: false,
+};
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case ACTIONS.SET_USER_NAME:
+      return {
+        ...state,
+        userName: action.payload,
+      };
+    case ACTIONS.SET_USER_ID:
+      return {
+        ...state,
+        userid: action.payload,
+      };
+    case ACTIONS.SET_POST_LENGTH:
+      return {
+        ...state,
+        postsLength: action.payload,
+      };
+    case ACTIONS.SET_POSTS:
+      return {
+        ...state,
+        posts: action.payload,
+      };
+    case ACTIONS.SET_POPUP:
+      return {
+        ...state,
+        popup: action.payload,
+      };
+    case ACTIONS.SET_MENU:
+      return {
+        ...state,
+        menu: action.payload,
+      };
+    default:
+      return state;
+  }
+};
+
+function Dashboard() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const { posts, menu, postsLength, userName, userId, popup } = state;
+
   let navigate = useNavigate();
+
   useEffect(() => {
     if (localStorage.getItem("userEmail") === null) {
       navigate(`/`);
@@ -21,7 +73,7 @@ function Dashboard() {
       const userEmail = window.localStorage.getItem("userEmail");
       // Fetch User details and posts
       fetch(
-        "http://localhost/firegram/load-posts.php?email=" + userEmail + "",
+        "http://localhost/firegram/load-all-posts.php?email=" + userEmail + "",
         {
           method: "GET",
         }
@@ -30,41 +82,73 @@ function Dashboard() {
         .then((data) => {
           if (data.username.length > 5) {
             var username = data.username.slice(0, 5) + "..";
-            setUserName(username);
+            dispatch({
+              type: ACTIONS.SET_USER_NAME,
+              payload: username,
+            });
           } else {
-            setUserName(data.username);
+            dispatch({
+              type: ACTIONS.SET_USER_NAME,
+              payload: data.username,
+            });
           }
-          setUserId(data.userid);
-          console.log(data);
+          dispatch({
+            type: ACTIONS.SET_USER_ID,
+            payload: data.userid,
+          });
           if (data.posts.length == 0) {
-            setPostsLength(true);
+            dispatch({
+              type: ACTIONS.SET_POST_LENGTH,
+              payload: true,
+            });
           } else {
-            setPosts(data.posts);
-            setPostsLength(false);
+            dispatch({
+              type: ACTIONS.SET_POSTS,
+              payload: data.posts,
+            });
+            dispatch({
+              type: ACTIONS.SET_POST_LENGTH,
+              payload: false,
+            });
           }
         })
         .catch((error) => {
           console.error("Error:", error);
         });
     }
-    console.log("UseEffect ran ...");
   }, []);
+
   function logout() {
     window.localStorage.removeItem("userEmail");
     navigate(`/`);
   }
+  function profile() {
+    navigate(`/profile`);
+  }
   function menuToggle() {
     if (menu == true) {
-      showHideMenu(false);
+      dispatch({
+        type: ACTIONS.SET_MENU,
+        payload: false,
+      });
     } else {
-      showHideMenu(true);
+      dispatch({
+        type: ACTIONS.SET_MENU,
+        payload: true,
+      });
     }
   }
   function togglePopup() {
     if (popup == true) {
-      showHidePopup(false);
+      dispatch({
+        type: ACTIONS.SET_POPUP,
+        payload: false,
+      });
     } else {
-      showHidePopup(true);
+      dispatch({
+        type: ACTIONS.SET_POPUP,
+        payload: true,
+      });
     }
   }
 
@@ -78,13 +162,18 @@ function Dashboard() {
           alignItems: "center",
         }}
       >
-        <div>
-          <h1>FireGram!</h1>
-        </div>
+        {" "}
+        <Link
+          to="/dashboard"
+          style={{ color: "black", textDecoration: "none" }}
+        >
+          <div>
+            <h1>FireGram!</h1>
+          </div>
+        </Link>
         <div className="add-post" onClick={togglePopup}>
           <i class="fa-regular fa-square-plus"></i>
         </div>
-
         <div className="top-menu">
           <div
             className={"user " + (menu && "user-active")}
@@ -94,7 +183,9 @@ function Dashboard() {
             <h1>{userName}</h1>
             {menu && (
               <div className="menu1">
-                <div className="menu-item">Profile</div>
+                <div className="menu-item" onClick={profile}>
+                  Profile
+                </div>
                 <div className="menu-item" onClick={logout}>
                   Logout
                 </div>
@@ -103,8 +194,8 @@ function Dashboard() {
           </div>
         </div>
       </div>
-      <div className="container" style={{ marginBottom: "10px" }}>
-        <h3>My Posts</h3>
+      {/* <div className="container" style={{ marginBottom: "10px" }}>
+        <h3>Feed</h3>
         {postsLength ? (
           <div className="no-posts" style={{ color: "black" }}>
             No Posts Found!
@@ -114,14 +205,13 @@ function Dashboard() {
             <ShowPosts posts={posts} />
           </div>
         )}
-      </div>
+      </div> */}
       {popup && (
         <AddPost
           togglePopup={togglePopup}
           userId={userId}
           posts={posts}
-          setPosts={setPosts}
-          setPostsLength={setPostsLength}
+          dispatch={dispatch}
         />
       )}
     </div>

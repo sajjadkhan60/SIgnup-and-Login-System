@@ -2,6 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import CustomInput from "../../components/custom_input/custom_input.component";
 import profile from "../../pages/dashboard_page/profile123.png";
 import "./post.css";
@@ -17,6 +18,8 @@ function Post() {
   const [commentsLength, setcommentsLength] = useState("...");
   const [userName, setUserName] = useState("____");
   var { p_id } = useParams();
+
+  let navigate = useNavigate();
 
   useEffect(() => {
     // Fetch User details and posts
@@ -60,6 +63,9 @@ function Post() {
   const handleComment = (e) => {
     setComment(e.target.value);
   };
+  function redirect() {
+    window.history.back();
+  }
 
   const removeLike = () => {
     setLikes(likes - 1);
@@ -164,9 +170,28 @@ function Post() {
   return (
     <div>
       <div className="container">
+        <div
+          className="link"
+          style={{
+            width: "40px",
+            height: "40px",
+            backgroundColor: "#E4E6EB",
+            marginBottom: "15px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            borderRadius: "20px",
+          }}
+          onClick={redirect}
+        >
+          <i class="fa-solid fa-arrow-left"></i>
+        </div>
         <motion.div initial={{ opacity: 0.8 }} animate={{ opacity: 1 }}>
           {postsLength ? (
-            <div className="no-posts" style={{ color: "black" }}>
+            <div
+              className="no-posts"
+              style={{ color: "black", fontSize: "20px" }}
+            >
               This post does not exist!
             </div>
           ) : (

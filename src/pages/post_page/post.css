@@ -4,13 +4,14 @@
 .main-post-container {
   display: flex;
   gap: 20px;
+  height: 87vh;
 }
 .main-post-container .post-picture {
   width: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 90vh;
+  height: 87vh;
   background-color: rgba(0, 0, 0, 0.8);
   border-radius: 10px;
 }
@@ -21,7 +22,7 @@
 }
 .post-details {
   width: 50%;
-  height: 90vh;
+  height: 87vh;
   position: relative;
   overflow: hidden;
 }

@@ -24,7 +24,8 @@ function LoginPage({ registerd, setRegisterd }) {
       [e.target.name]: e.target.value,
     });
   };
-  const authUser = async () => {
+  const authUser = async (e) => {
+    e.preventDefault();
     if (email == "" || password == "") {
       setemptyError(true);
       setRegisterd(false);
@@ -115,29 +116,31 @@ function LoginPage({ registerd, setRegisterd }) {
               Please make sure all the fields are filled.
             </div>
           )}
-          <CustomInput
-            title={"Email"}
-            type={"text"}
-            name={"email"}
-            value={email}
-            onChange={handleChange}
-          />
-          <CustomInput
-            title={"Password"}
-            type={"password"}
-            name={"password"}
-            value={password}
-            onChange={handleChange}
-          />
-          {auth ? (
-            <CustomButton name={"Please wait ..."} className={"disabled"} />
-          ) : (
-            <CustomButton
-              name={"Login"}
-              className={"custom_button"}
-              onClick={authUser}
+          <form onSubmit={authUser}>
+            <CustomInput
+              title={"Email"}
+              type={"text"}
+              name={"email"}
+              value={email}
+              onChange={handleChange}
             />
-          )}
+            <CustomInput
+              title={"Password"}
+              type={"password"}
+              name={"password"}
+              value={password}
+              onChange={handleChange}
+            />
+            {auth ? (
+              <CustomButton name={"Please wait ..."} className={"disabled"} />
+            ) : (
+              <CustomButton
+                name={"Login"}
+                className={"custom_button"}
+                onClick={authUser}
+              />
+            )}
+          </form>
           <div className="signuplink">
             Not a member?{" "}
             <span>
